@@ -5,8 +5,6 @@ Created on Thu May 31 11:05:44 2018
 
 @author: cadu
 """
-
-print("66")
 import pandas as pd
 import numpy as np
 from sklearn import datasets, svm, metrics
@@ -14,64 +12,31 @@ from sklearn import cross_validation
 import xgboost as xgb
 import time
 import matplotlib.pyplot as plt
-#%matplotlib inline
-def loaddata(Filename):
-    data = pd.read_csv(Filename,sep=',',header = None)
-    return np.array(data)
-# dataset
-data1 = loaddata("../data/dataout2018-05-03_win16_0_1.csv")
-data2 = loaddata("../data/dataout2018-05-03_win11_1_1.csv")
-data3 = loaddata("../data/dataout2018-04-04_win16_2_1.csv")
-data4 = loaddata("../data/dataoutcapture_win11_3_1.csv")
-data5 = loaddata("../data/dataout2018-03-01_win11_4_1.csv")
-
-print(data1.shape,data2.shape,data3.shape)
-data_train = np.vstack((data1[:len(data1)-1],data2[:len(data2)-1]))
-data_train = np.vstack((data_train,data3[:len(data3)-1]))
-data_train = np.vstack((data_train,data4[:len(data4)-1]))
-data_train = np.vstack((data_train,data5[:len(data5)-1]))
-
-print('This is data_train',type(data_train),data_train.shape)
-#label
-data1_ = loaddata("../data/labelout2018-05-03_win16_0_1.csv")
-data2_ = loaddata("../data/labelout2018-05-03_win11_1_1.csv")
-data3_ = loaddata("../data/labelout2018-04-04_win16_2_1.csv")
-data4_= loaddata("../data/labeloutcapture_win11_3_1.csv")
-data5_ = loaddata("../data/labelout2018-03-01_win11_4_1.csv")
-print(data1_.shape,data2_.shape,data3_.shape,data4_.shape,data5_.shape)
-
-
-label_train = np.vstack((data1_[:len(data1_)-1],data2_[:len(data2_)-1]))
-label_train = np.vstack((label_train,data3_[:len(data3_)-1]))
-label_train = np.vstack((label_train,data4_[:len(data4_)-1]))
-label_train = np.vstack((label_train,data5_[:len(data5_)-1]))
-#print(label_test[100:800])
-train_X,test_X,train_Y,test_Y=cross_validation.train_test_split(data_train,label_train,test_size=0.1)
-
-print('This is test_X',type(test_X),test_X.shape)
-print('This is test_Y',type(test_Y),test_Y.shape)
-print('This cell has done...')
+import sys
+sys.path.append("../src")
+from data_pro import get_tt
+## load data
+data_train,label_train=get_tt()
 #####################################
-
 label_train=np.resize(label_train,(len(label_train),))
 X_train,X_test,y_train,y_test=cross_validation.train_test_split(data_train,label_train,test_size=0.2)
 X_val,X_test,y_val,y_test=cross_validation.train_test_split(X_test,y_test,test_size=0.5)
 print(X_train.shape,X_val.shape,X_test.shape,y_test.shape)
-X_train=X_train[:,0:660]
-X_test=X_test[:,0:660]
-X_val=X_val[:,0:660]
+X_train=X_train[:,6:462]
+X_test=X_test[:,6:462]
+X_val=X_val[:,6:462]
 print(X_train.shape,X_test.shape,X_val.shape)
 #####################################
 from xgboost import plot_importance
-xg_train = xgb.DMatrix( train_X, label=train_Y)
-xg_test = xgb.DMatrix(test_X, label=test_Y)
+xg_train = xgb.DMatrix(X_train, label=y_train)
+xg_test = xgb.DMatrix(X_test, label=y_test)
 # setup parameters for xgboost
 param = {}
 # use softmax multi-class classification
 param['objective'] = 'multi:softmax'
 # scale weight of positive examples
 param['eta'] = 0.8
-param['max_depth'] = 6
+param['max_depth'] = 10
 param['silent'] = 1
 param['nthread'] = 12
 param['num_class'] = 5
@@ -86,9 +51,8 @@ plt.show()
 # get prediction
 pred = bst.predict( xg_test );
 print(pred)
-
 print ('predicting, classification error=%f' 
-       % (sum( int(pred[i]) != test_Y[i] for i in range(len(test_Y))) / float(len(test_Y)) ))
+       % (sum( int(pred[i]) != y_test[i] for i in range(len(y_test))) / float(len(y_test)) ))
 
 ####################################
 import pandas as pd
@@ -96,7 +60,7 @@ importance = bst.get_fscore()
 print(pd.Series(importance).sort_values(ascending=False))
 ####################################
 # Results
-expected = test_Y  
+expected = y_test  
 predicted = pred
 import matplotlib.pyplot as plt
 LABELS = [
