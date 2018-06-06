@@ -23,12 +23,23 @@ def get_tt():
     data3 = loaddata(abspath+"/data/dataout2018-04-04_win16_2_1.csv")
     data4 = loaddata(abspath+"/data/dataoutcapture_win11_3_1.csv")
     data5 = loaddata(abspath+"/data/dataout2018-03-01_win11_4_1.csv")    
+    #data6 = loaddata(abspath+"/data/dataoutcapture_win15_5_1.csv")
+    data7 = loaddata(abspath+"/data/dataoutcapture_win12_6_1.csv")
+    data8 = loaddata(abspath+"/data/dataout2018-01-30_win10_7_1.csv")
+    data9 = loaddata(abspath+"/data/dataout2018-01-30_win9_8_1.csv")
+    data10 = loaddata(abspath+"/data/dataout2018-01-29_win7_9_1.csv")
     
     print("src data is:",data1.shape,data2.shape,data3.shape,data4.shape,data5.shape)
+    print("src data is:",data5.shape,data7.shape,data8.shape,data9.shape,data10.shape)
     data_train = np.vstack((data1[:len(data1)-1],data2[:len(data2)-1]))
     data_train = np.vstack((data_train,data3[:len(data3)-1]))
     data_train = np.vstack((data_train,data4[:len(data4)-1]))
     data_train = np.vstack((data_train,data5[:len(data5)-1]))
+    #data_train = np.vstack((data_train,data6[:len(data6)-1]))
+    data_train = np.vstack((data_train,data7[:len(data7)-1]))
+    data_train = np.vstack((data_train,data8[:len(data8)-1]))
+    data_train = np.vstack((data_train,data9[:len(data9)-1]))
+    data_train = np.vstack((data_train,data10[:len(data10)-1]))
     
     print('This is data_train',type(data_train),data_train.shape)
     #label
@@ -37,6 +48,11 @@ def get_tt():
     data3_ = loaddata(abspath+"/data/labelout2018-04-04_win16_2_1.csv")
     data4_ = loaddata(abspath+"/data/labeloutcapture_win11_3_1.csv")
     data5_ = loaddata(abspath+"/data/labelout2018-03-01_win11_4_1.csv")
+    #data6_ = loaddata(abspath+"/data/labeloutcapture_win15_5_1.csv")
+    data7_ = loaddata(abspath+"/data/labeloutcapture_win12_6_1.csv")
+    data8_ = loaddata(abspath+"/data/labelout2018-01-30_win10_7_1.csv")
+    data9_ = loaddata(abspath+"/data/labelout2018-01-30_win9_8_1.csv")
+    data10_ = loaddata(abspath+"/data/labelout2018-01-29_win7_9_1.csv")
     #print(data1_.shape,data2_.shape,data3_.shape,data4_.shape,data5_.shape)
     
     
@@ -44,6 +60,11 @@ def get_tt():
     label_train = np.vstack((label_train,data3_[:len(data3_)-1]))
     label_train = np.vstack((label_train,data4_[:len(data4_)-1]))
     label_train = np.vstack((label_train,data5_[:len(data5_)-1]))
+    #label_train = np.vstack((label_train,data6_[:len(data6)-1]))
+    label_train = np.vstack((label_train,data7_[:len(data7)-1]))
+    label_train = np.vstack((label_train,data8_[:len(data8)-1]))
+    label_train = np.vstack((label_train,data9_[:len(data9)-1]))
+    label_train = np.vstack((label_train,data10_[:len(data10)-1]))
     print("Data loading is ...OK.")
     print("The total time is :",time.time()+startT)
     return data_train,label_train

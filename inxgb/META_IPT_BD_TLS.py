@@ -32,9 +32,9 @@ param['eta'] = 0.8
 param['max_depth'] = 6
 param['silent'] = 1
 param['nthread'] = 12
-param['num_class'] = 5
+param['num_class'] = 9
 watchlist = [ (xg_train,'train'), (xg_test, 'test') ]
-num_round = 20     ## boosting迭代计算次数
+num_round = 100     ## boosting迭代计算次数
 bst = xgb.train(param, xg_train, num_round, watchlist )
 
 plot_importance(bst)
@@ -58,8 +58,11 @@ print("        **************xgboost**************")
 print(metrics.classification_report(y_test, pred,digits=4))
 print("Classification report for classifier %s:\n%s\n"
       % (bst, metrics.classification_report(y_test, pred,digits=4)))
+np.set_printoptions(threshold=100)
 print("Confusion matrix:\n%s" % metrics.confusion_matrix(y_test, pred))
-
+confusion_m=metrics.confusion_matrix(y_test, pred)
+for i in range(len(confusion_m)):
+    print(confusion_m[i])
 '''
 import matplotlib.pyplot as plt
 LABELS = [
