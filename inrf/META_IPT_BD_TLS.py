@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 #%matplotlib inline
 import sys
 sys.path.append("../src")
-from data_pro import get_tt
+from data_prov2 import get_tt
 ## load data
 data_train,label_train=get_tt()
 #############
@@ -36,7 +36,7 @@ pre=clf.predict(X_test)
       #% (clf, metrics.classification_report(y_test, pre,digits=4)))
 print("        **************Random Forest**************")
 print(metrics.classification_report(y_test, pre,digits=4))
-print("Confusion matrix:\n%s" % metrics.confusion_matrix(y_test))
+print("Confusion matrix:\n%s" % metrics.confusion_matrix(y_test,pre))
 print(clf.feature_importances_)
 
 
@@ -46,4 +46,4 @@ print(clf.feature_importances_)
 
 print(clf.feature_importances_)
 
-print(clf.predict([[0, 0, 0, 0]]))
+#print(clf.predict([[0, 0, 0, 0]]))

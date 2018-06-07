@@ -14,7 +14,7 @@ import time
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("../src")
-from data_pro import get_tt
+from data_prov2 import get_tt
 ## load data
 data_train,label_train=get_tt()
 #####################################
@@ -36,10 +36,10 @@ param = {}
 param['objective'] = 'multi:softmax'
 # scale weight of positive examples
 param['eta'] = 0.8
-param['max_depth'] = 10
+param['max_depth'] = 6
 param['silent'] = 1
-param['nthread'] = 12
-param['num_class'] = 5
+param['nthread'] = 14
+param['num_class'] = 9
 watchlist = [ (xg_train,'train'), (xg_test, 'test') ]
 num_round = 20     ## boosting迭代计算次数
 bst = xgb.train(param, xg_train, num_round, watchlist )

@@ -7,7 +7,7 @@ import time
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("../src")
-from data_pro import get_tt
+from data_prov2 import get_tt
 ## load data
 data_train,label_train=get_tt()
 #############
@@ -15,9 +15,9 @@ label_train=np.resize(label_train,(len(label_train),))
 X_train,X_test,y_train,y_test=cross_validation.train_test_split(data_train,label_train,test_size=0.2)
 X_val,X_test,y_val,y_test=cross_validation.train_test_split(X_test,y_test,test_size=0.5)
 print(X_train.shape,X_val.shape,X_test.shape,y_test.shape)
-X_train=X_train[:,0:660]
-X_test=X_test[:,0:660]
-X_val=X_val[:,0:660]
+X_train=X_train[:,0:661]
+X_test=X_test[:,0:661]
+X_val=X_val[:,0:661]
 print(X_train.shape,X_test.shape,X_val.shape)
 #####################################
 from xgboost import plot_importance
@@ -31,10 +31,10 @@ param['objective'] = 'multi:softmax'
 param['eta'] = 0.8
 param['max_depth'] = 6
 param['silent'] = 1
-param['nthread'] = 12
+param['nthread'] = 16
 param['num_class'] = 9
 watchlist = [ (xg_train,'train'), (xg_test, 'test') ]
-num_round = 100     ## boosting迭代计算次数
+num_round = 20     ## boosting迭代计算次数
 bst = xgb.train(param, xg_train, num_round, watchlist )
 
 plot_importance(bst)
