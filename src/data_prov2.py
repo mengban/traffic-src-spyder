@@ -19,6 +19,11 @@ def get_tt():
     abspath=os.path.abspath("..")
     for i in range(len(filelist)):
         tmp=loaddata(abspath+"/data/data/"+filelist[i])
+        if(len(tmp)<20000):
+            tmp_copy = tmp
+            for i in range(int(20000/len(tmp))+2):
+                tmp = np.vstack((tmp,tmp_copy))
+                print("x",int(20000/len(tmp))+2,"times")
         if i==0:
             data_train = tmp
             label_train =np.full((len(tmp),1),i)
@@ -26,10 +31,13 @@ def get_tt():
             data_train = np.vstack((data_train,tmp[:len(tmp)-2]))
             tmp_label = np.full((len(tmp),1),i)
             label_train = np.vstack((label_train,tmp_label[:len(tmp_label)-2]))
-        print(data_train.shape,label_train.shape)
+        print(tmp.shape)
     return data_train,label_train
         #print(abspath+"/data/data/"+filelist[i])
     pass
 if __name__=="__main__":
-    print('Test')
+    print('Data loading starts...')
+    startT=-time.time()
     get_tt()
+    print('Data loading is ...OK.')
+    print('Total time is: ',time.time()+startT)
