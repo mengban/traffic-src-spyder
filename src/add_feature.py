@@ -36,8 +36,8 @@ with gzip.open("2018-05-28/out2018-04-04_win16.gz","r") as fp:
                 print(e)
                 continue
             if 'version' not in tmp:
-                print(tmp['te']-tmp['ts'])
-                print(len(tmp['packets']))
+                #print(tmp['te']-tmp['ts'])
+                print(np.sum(tmp['bd'])/(len(tmp['packets'])+1))
                 entropy.append(calc_ent(tmp['bd']))
                 std.append(np.std(tmp['bd']))
                 
