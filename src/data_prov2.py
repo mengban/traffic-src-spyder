@@ -21,10 +21,11 @@ def get_tt():
         tmp=loaddata(abspath+"/data/data/"+filelist[i])
         if(len(tmp)<20000):
             tmp_copy = tmp
-            for i in range(int(20000/len(tmp))+2):
+            for j in range(int(20000/len(tmp))+2):
                 tmp = np.vstack((tmp,tmp_copy))
                 print("x",int(20000/len(tmp))+2,"times")
         if i==0:
+            print('define dara_train')
             data_train = tmp
             label_train =np.full((len(tmp),1),i)
         else:
