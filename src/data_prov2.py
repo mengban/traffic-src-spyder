@@ -67,10 +67,17 @@ def feature_select_basetree(X_train,y_train):
     model = SelectFromModel(clf, prefit=True)
     X_new_traffic = model.transform(X)
     return X_new_traffic
-    
+def cal_correction(X_Matrix):
+    print("")
+    X_Matrix = X_Matrix[0:100]
+    print('X_M shape is:',X_Matrix.shape)
+    print('相关系数为：')
+    print(np.corrcoef(X_Matrix,rowvar=0))
+    pass
 if __name__=="__main__":
     print('Data loading starts...')
-    startT=-time.time()
-    get_tt()
+    startT = -time.time()
+    X_Matrix,label = get_tt()
+    cal_correction(X_Matrix)
     print('Data loading is ...OK.')
     print('Total time is: ',time.time()+startT)
