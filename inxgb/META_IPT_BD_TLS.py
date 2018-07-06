@@ -9,16 +9,18 @@ import sys
 sys.path.append("../src")
 from data_prov2 import get_tt
 ## load data
-data_train,label_train=get_tt()
+data_train,label_train=get_tt(select_method='basedtree')
 #############
 label_train=np.resize(label_train,(len(label_train),))
 X_train,X_test,y_train,y_test=cross_validation.train_test_split(data_train,label_train,test_size=0.2)
 X_val,X_test,y_val,y_test=cross_validation.train_test_split(X_test,y_test,test_size=0.5)
 print(X_train.shape,X_val.shape,X_test.shape,y_test.shape)
-X_train=X_train[:,0:663]
-X_test=X_test[:,0:663]
-X_val=X_val[:,0:663]
-print(X_train.shape,X_test.shape,X_val.shape)
+###
+#X_train=X_train[:,0:X_train.shape[1]]
+X_train = X_train[:,0:661]
+X_test=X_test[:,0:X_train.shape[1]]
+X_val=X_val[:,0:X_train.shape[1]]
+print('X_train.shape',X_train.shape,X_test.shape,X_val.shape)
 #####################################
 from xgboost import plot_importance
 xg_train = xgb.DMatrix(X_train, label=y_train)
@@ -34,7 +36,7 @@ param['silent'] = 1
 param['nthread'] = 14
 param['num_class'] = 8
 watchlist = [ (xg_train,'train'), (xg_test, 'test') ]
-num_round = 20     ## boosting迭代计算次数
+num_round = 30     ## boosting迭代计算次数
 bst = xgb.train(param, xg_train, num_round, watchlist )
 
 plot_importance(bst)

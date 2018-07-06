@@ -14,7 +14,7 @@ from sklearn import cross_validation
 import matplotlib.pyplot as plt
 import sys
 sys.path.append("../src")
-from data_pro import get_tt
+from data_prov2 import get_tt
 ## load data
 data_train,label_train=get_tt()
 ############################################
@@ -37,9 +37,9 @@ def extract_batch_size(_train, step, batch_size):# Function to fetch a "batch_si
 ############################################
 import tensorflow as tf
 import tensorflow as tf
-x = tf.placeholder(tf.float32, [None, 661])
-W = tf.Variable(tf.zeros([661, 5]))
-b = tf.Variable(tf.zeros([5]))
+x = tf.placeholder(tf.float32, [None, 671])
+W = tf.Variable(tf.zeros([671, 8]))
+b = tf.Variable(tf.zeros([8]))
 y = tf.matmul(x, W) + b
 
 # Define loss and optimizer
@@ -62,7 +62,7 @@ tf.global_variables_initializer().run()
 # Train
 batch_size=256
 print_fre=10
-for _ in range(100):
+for _ in range(1000):
     #batch_xs, batch_ys = mnist.train.next_batch(100)
     batch_xs = extract_batch_size(X_train,_ ,batch_size)
     batch_xss = extract_batch_size(X_test,_ ,batch_size)

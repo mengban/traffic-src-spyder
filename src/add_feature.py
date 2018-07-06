@@ -37,10 +37,29 @@ with gzip.open("2018-05-28/out2018-04-04_win16.gz","r") as fp:
                 continue
             if 'version' not in tmp:
                 #print(tmp['te']-tmp['ts'])
-                print(np.sum(tmp['bd'])/(len(tmp['packets'])+1))
-                entropy.append(calc_ent(tmp['bd']))
-                std.append(np.std(tmp['bd']))
+                print('mean packet length:',np.sum(tmp['bd'])/(len(tmp['packets'])+1)) #mean packet length
+                entropy.append(calc_ent(tmp['bd'])) # entropy 
+                std.append(np.std(tmp['bd'])) # stdandard devitation
                 
+                sec_bytes_l=[]
+                sec_bytes=np.sum(tmp['bd'])/(tmp['te']-tmp['ts'])
+                if sec_bytes=='NaN' or sec_bytes=='inf':
+                    sec_bytes=np.mean(sec_bytes_l)
+                sec_bytes_l.append(sec_bytes)
+                print('sec_bytes',sec_bytes)
+                byte_l=[] # byte length in the packet
+                if len(tmp['packets'])!=0:
+                    print('len of packet',len(tmp['packets']))
+                    for item in tmp['packets']:
+                        print('item_b:',item['b'])
+                        
+                        byte_l.append(item['b'])
+                        #min_pkl=tmp['']
+                if len(byte_l)!=0:
+                    print('max length',np.max(byte_l))
+                else:
+                    print('max length',np.mean(byte_l))
+                print('#'*20)
     except Exception as e:
         print(e)
    

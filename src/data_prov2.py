@@ -10,10 +10,14 @@ import pandas as pd
 import numpy as np
 import os
 import time
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+from sklearn.feature_selection import SelectFromModel
+from sklearn.ensemble import ExtraTreesClassifier
 def loaddata(Filename):
     data = pd.read_csv(Filename,sep=',',header = None)
     return np.array(data)
-def get_tt():
+def get_tt(select_method='without'):
     filelist=os.listdir("../data/data")
     print(filelist)
     abspath=os.path.abspath("..")
@@ -33,9 +37,37 @@ def get_tt():
             tmp_label = np.full((len(tmp),1),i)
             label_train = np.vstack((label_train,tmp_label[:len(tmp_label)-2]))
         print(tmp.shape)
+    # chi2
+    #data_train = feature_select_chi(data_train,label_train)
+    if select_method=='chi2':
+        print('feature select method:chi2')
+        data_train = feature_select_chi2(data_train[:,:661],label_train)
+    elif select_method=='basedtree':
+        print('feature select method:basedtree')
+        data_train = feature_select_basetree(data_train[:,:661],label_train)
+    elif select_method=='without':
+        print('do nothing with the raw data')
     return data_train,label_train
         #print(abspath+"/data/data/"+filelist[i])
     pass
+def feature_select_chi2(X_train,y_train):
+    
+    X_new_traffic= SelectKBest(chi2,k=400).fit_transform(X_train,y_train)
+    return X_new_traffic
+    pass
+def feature_select_basetree(X_train,y_train):
+    X=X_train
+    y=y_train
+    ##(150, 4)
+    clf = ExtraTreesClassifier()
+    ##clf =GradientBoostingClassifier()
+    clf = clf.fit(X, y)
+    clf.feature_importances_  
+    ##array([ 0.04...,  0.05...,  0.4...,  0.4...])
+    model = SelectFromModel(clf, prefit=True)
+    X_new_traffic = model.transform(X)
+    return X_new_traffic
+    
 if __name__=="__main__":
     print('Data loading starts...')
     startT=-time.time()
