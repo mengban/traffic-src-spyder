@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import os
 import time
+import cv2
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import SelectFromModel
@@ -52,7 +53,7 @@ def get_tt(select_method='without'):
     pass
 def feature_select_chi2(X_train,y_train):
     
-    X_new_traffic= SelectKBest(chi2,k=400).fit_transform(X_train,y_train)
+    X_new_traffic= SelectKBest(chi2,k=100).fit_transform(X_train,y_train)
     return X_new_traffic
     pass
 def feature_select_basetree(X_train,y_train):
@@ -69,15 +70,19 @@ def feature_select_basetree(X_train,y_train):
     return X_new_traffic
 def cal_correction(X_Matrix):
     print("")
-    X_Matrix = X_Matrix[0:100]
+    #X_Matrix = X_Matrix[0:100]
     print('X_M shape is:',X_Matrix.shape)
     print('相关系数为：')
-    print(np.corrcoef(X_Matrix,rowvar=0))
+    corrc = np.corrcoef(X_Matrix,rowvar=0)
+    cv2.imwrite('chioo.jpg',np.rint(corrc*256))
+    print(corrc)
+    pd.DataFrame(corrc).to_csv('out.csv')
+    return corrc
     pass
 if __name__=="__main__":
     print('Data loading starts...')
     startT = -time.time()
-    X_Matrix,label = get_tt()
+    X_Matrix,label = get_tt(select_method='chi2')
     cal_correction(X_Matrix)
     print('Data loading is ...OK.')
     print('Total time is: ',time.time()+startT)
