@@ -69,6 +69,9 @@ confusion_m=metrics.confusion_matrix(y_test, pred)
 #for i in range(len(confusion_m)):
     #print(confusion_m[i])
     
-from myplot import plot_roc,plot_confusionM  
-plot_roc(y_test,pred)
+from myplot import plot_roc,plot_confusionM 
+import pandas as pd 
+plot_roc(y_test,pred,_title='')
 plot_confusionM(y_test,pred)
+
+pd.DataFrame.to_csv('',[y_test,pred])

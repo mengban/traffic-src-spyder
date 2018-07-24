@@ -24,6 +24,7 @@ def get_tt(select_method='without'):
     abspath=os.path.abspath("..")
     for i in range(len(filelist)):
         tmp=loaddata(abspath+"/data/data/"+filelist[i])
+        print(filelist[i],len(tmp))
         if(len(tmp)<20000):
             tmp_copy = tmp
             for j in range(int(20000/len(tmp))+2):
@@ -82,7 +83,7 @@ def cal_correction(X_Matrix):
 if __name__=="__main__":
     print('Data loading starts...')
     startT = -time.time()
-    X_Matrix,label = get_tt(select_method='chi2')
+    X_Matrix,label = get_tt(select_method='without')
     cal_correction(X_Matrix)
     print('Data loading is ...OK.')
     print('Total time is: ',time.time()+startT)

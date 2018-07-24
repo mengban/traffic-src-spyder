@@ -15,7 +15,7 @@ from sklearn.preprocessing import label_binarize
 from scipy import interp
 from sklearn import metrics
 
-def plot_roc(y_test,pred):
+def plot_roc(y_test,pred,_title='This is title'):
     y_test = label_binarize(y_test, classes=[0,1,2,3,4,5,6,7])
     pred = label_binarize(pred, classes=[0,1,2,3,4,5,6,7])
     n_classes=8
@@ -39,7 +39,8 @@ def plot_roc(y_test,pred):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('Receiver operating characteristic example')
+    #plt.title('Receiver operating characteristic example')
+    plt.title(_title)
     plt.legend(loc="lower right")
     plt.show()
     
@@ -84,7 +85,8 @@ def plot_roc(y_test,pred):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('Some extension of Receiver operating characteristic to multi-class')
+    #plt.title('Some extension of Receiver operating characteristic to multi-class')
+    plt.title(_title)
     plt.legend(loc="lower right")
     plt.show()
 

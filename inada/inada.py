@@ -81,7 +81,7 @@ print("Classification report for classifier %s:\n%s\n"
       % ('adaboost', metrics.classification_report(y_test, pred,digits=4)))
 np.set_printoptions(threshold=100)
 print("Confusion matrix:\n%s" % metrics.confusion_matrix(y_test, pred))
-plot_roc(y_test,pred)
+plot_roc(y_test,pred,'')
 plot_confusionM(y_test,pred)
 
 
